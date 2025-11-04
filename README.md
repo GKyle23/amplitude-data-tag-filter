@@ -38,7 +38,7 @@ python -m pip install pandas
 3. Run the script (edit tags as needed):
 
 ```python
-from script import filter_tracking_plan  # adjust if your file name differs
+from amp_tag_filter_script import filter_tracking_plan  
 
 filter_tracking_plan(
     input_csv="import_data.csv",

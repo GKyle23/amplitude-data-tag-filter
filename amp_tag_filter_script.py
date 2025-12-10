@@ -3,16 +3,12 @@ import pandas as pd
 def filter_tracking_plan(
     input_csv: str = "import_data.csv",
     template_csv: str = "import_template.csv",
+    destination_csv: str | None = None,
     tag_values: list[str] = None,
     keep_property_group_type: bool = True,
     output_csv: str = "filtered_data.csv",
 ) -> pd.DataFrame:
-    """
-    Load Amplitude tracking plan CSV, fill-down Tags, filter by given tags,
-    align to the import template's column order, rename dots to spaces, and save.
-
-    Returns the aligned DataFrame that was written to `output_csv`.
-    """
+    
     # Load data and template
     data = pd.read_csv(input_csv)
     import_template = pd.read_csv(template_csv)
@@ -32,6 +28,13 @@ def filter_tracking_plan(
 
     filtered_data.loc[filtered_data["Object Name"].isna(), "Tags"] = ""
 
+    # Filter by destination events
+    if destination_csv is not None:
+        destination_data = pd.read_csv(destination_csv)
+        destination_data_object_name = destination_data[['Object Name']]
+        destination_data_object_filtered = destination_data_object_name[(destination_data_object_name['Object Name'].notna())].copy()
+        filtered_data = filtered_data[(filtered_data['Object Name'].isin(destination_data_object_filtered['Object Name']))].copy()
+
     # Align to template column order
     template_columns = import_template.columns.tolist()
     missing_in_filtered = [c for c in template_columns if c not in filtered_data.columns]
@@ -47,13 +50,17 @@ def filter_tracking_plan(
 
     return aligned_dataset
 
-
-# --- tiny example usage (optional) ---
-if __name__ == "__main__":
+def main():
     filter_tracking_plan(
         input_csv="import_data.csv",
         template_csv="import_template.csv",
+        destination_csv="destination_data.csv",
         tag_values=["tag_1", "tag_2", "tag_3"],
         keep_property_group_type = True,
         output_csv="filtered_data.csv",
     )
+        
+
+
+if __name__ == "__main__":
+    main()

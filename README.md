@@ -1,7 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 
-# amp-data-tag-filter
+# amplitude-data-tag-filter
 
 A tiny, pandas-based helper to slice an Amplitude tracking plan export by Tags, align it to your import template, and write a clean CSV ready to re-import. The use case is for exporting existing events/properties in an Amplitude tracking plan and filtering for the ones you need to import into another tracking plan. This is to save time so data types and descriptions don't have to be re-written.
 
@@ -40,7 +40,7 @@ python -m pip install pandas
 3. Run the script (edit tags as needed):
 
 ```python
-from amp_tag_filter_script import filter_tracking_plan  # adjust if your file name differs
+from amp_tag_filter_script import filter_tracking_plan  
 
 filter_tracking_plan(
     input_csv="import_data.csv",
@@ -52,6 +52,23 @@ filter_tracking_plan(
     output_csv="filtered_data.csv",
 )
 ```
+
+
+If you kept the small if __name__ == "__main__": example in the script, you can also run:
+
+`python amp_tag_filter_script.py`
+
+## Function reference
+```python
+filter_tracking_plan(
+    input_csv: str = "import_data.csv",
+    template_csv: str = "import_template.csv",
+    tag_values: list[str] = None,
+    keep_property_group_type: bool = True,
+    output_csv: str = "filtered_data.csv",
+) -> pandas.DataFrame
+```
+
 
 - `input_csv` – tracking plan export
 - `template_csv` – Amplitude import template (defines output columns/order)

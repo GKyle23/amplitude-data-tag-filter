@@ -11,6 +11,7 @@ A tiny, pandas-based helper to slice an Amplitude tracking plan export by Tags, 
 - Loads your Amplitude import template (default: import_template.csv)
 - Converts empty strings in Tags to NA and fills down (ffill) so child rows inherit their parent object’s tag
 - Keeps only rows whose filled Tags value is in your chosen tag_values
+- Mpas against your tracking plan destination project so you are not importing irrelevant events if loking to copy taxonomy from another project.
 - Allows the option to remove property group types as these can conflict with your destination project
 - Selects only the template’s columns and re-orders to match
 - Writes the result to output_csv
@@ -34,41 +35,27 @@ python -m pip install pandas
 
 - `import_data.csv` – your Amplitude tracking plan export
 - `import_template.csv` – the Amplitude CSV import template
+- `destination_data.csv` - the Amplitude tracking plan of the project you want to export to (optional)
 
 3. Run the script (edit tags as needed):
 
 ```python
-from script import filter_tracking_plan  # adjust if your file name differs
+from amp_tag_filter_script import filter_tracking_plan  # adjust if your file name differs
 
 filter_tracking_plan(
     input_csv="import_data.csv",
     template_csv="import_template.csv",
+    destination_csv="destination_data.csv",
     tag_values=["tag_1", "tag_2", "tag_3"],
     keep_property_group_type: bool = True
     # Recommended: write to a new file to avoid overwriting your source
-    output_csv="dist/import_data.filtered.csv",
+    output_csv="filtered_data.csv",
 )
 ```
 
-
-If you kept the small if __name__ == "__main__": example in the script, you can also run:
-
-`python amp_tag_filter_script.py`
-
-## Function reference
-```python
-filter_tracking_plan(
-    input_csv: str = "import_data.csv",
-    template_csv: str = "import_template.csv",
-    tag_values: list[str] = None,
-    keep_property_group_type: bool = True,
-    output_csv: str = "import_data.csv",
-) -> pandas.DataFrame
-```
-
-
 - `input_csv` – tracking plan export
 - `template_csv` – Amplitude import template (defines output columns/order)
+- `destination_csv` - Amplitude destination project taxonomy
 - `tag_values` – list/iterable of tag strings to keep (exact match after fill-down)
 - `output_csv` – path to write the aligned, filtered CSV
 

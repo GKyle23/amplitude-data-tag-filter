@@ -1,9 +1,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 
-# amplitude-data-tag-filter
+# Amplitude Tracking Plan Filter
 
-A tiny, pandas-based helper to slice an Amplitude tracking plan export by Tags, align it to your import template, and write a clean CSV ready to re-import. The use case is for exporting existing events/properties in an Amplitude tracking plan and filtering for the ones you need to import into another tracking plan. This is to save time so data types and descriptions don't have to be re-written.
+A tiny, pandas-based helper to slice an Amplitude tracking plan export by Amplitude tags, align it to your import template, and write a clean CSV ready to re-import. The use case is for exporting existing events/properties in an Amplitude tracking plan and filtering for the ones you need to import into another tracking plan. This is to save time so data types and descriptions don't have to be re-written.
 
 ## What it does
 
